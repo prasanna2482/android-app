@@ -24,6 +24,7 @@ plugins {
     id("jacoco")
     id("nowinandroid.android.application.firebase")
     id("com.google.android.gms.oss-licenses-plugin")
+    alias(libs.plugins.baselineProfile)
 }
 
 android {
@@ -120,6 +121,7 @@ dependencies {
     implementation(libs.androidx.profileinstaller)
     implementation(libs.kotlinx.coroutines.guava)
     implementation(libs.coil.kt)
+    baselineProfile(project(":benchmarks"))
 }
 
 // androidx.test is forcing JUnit, 4.12. This forces it to use 4.13
@@ -129,4 +131,8 @@ configurations.configureEach {
         // Temporary workaround for https://issuetracker.google.com/174733673
         force("org.objenesis:objenesis:2.6")
     }
+}
+
+baselineProfile {
+    saveInSrc = true
 }

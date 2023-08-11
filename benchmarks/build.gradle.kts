@@ -18,6 +18,7 @@ import com.google.samples.apps.nowinandroid.configureFlavors
 
 plugins {
     id("nowinandroid.android.test")
+    alias(libs.plugins.baselineProfile)
 }
 
 android {
@@ -28,27 +29,23 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "APP_BUILD_TYPE_SUFFIX", "\"\"")
+
+        /**
+         * ERROR: Running on Emulator
+         *     Benchmark is running on an emulator, which is not representative of
+         *     real user devices. Use a physical device to benchmark. Emulator
+         *     benchmark improvements might not carry over to a real user's
+         *     experience (or even regress real device performance).
+         *
+         * While you can suppress these errors (turning them into warnings)
+         * PLEASE NOTE THAT EACH SUPPRESSED ERROR COMPROMISES ACCURACY
+         */
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
+        // testInstrumentationRunnerArguments["androidx.benchmark.enabledRules"] = "BaselineProfile"
     }
 
     buildFeatures {
         buildConfig = true
-    }
-
-    buildTypes {
-        // This benchmark buildType is used for benchmarking, and should function like your
-        // release build (for example, with minification on). It's signed with a debug key
-        // for easy local/CI testing.
-        create("benchmark") {
-            // Keep the build type debuggable so we can attach a debugger if needed.
-            isDebuggable = true
-            signingConfig = signingConfigs.getByName("debug")
-            matchingFallbacks.add("release")
-            buildConfigField(
-                "String",
-                "APP_BUILD_TYPE_SUFFIX",
-                "\"${NiaBuildType.BENCHMARK.applicationIdSuffix ?: ""}\""
-            )
-        }
     }
 
     // Use the same flavor dimensions as the application to allow generating Baseline Profiles on prod,
@@ -76,8 +73,10 @@ dependencies {
     implementation(libs.androidx.test.uiautomator)
 }
 
-androidComponents {
-    beforeVariants {
-        it.enable = it.buildType == "benchmark"
-    }
+baselineProfile {
+    managedDevices += "pixel6api31aosp"
+    // managedDevices += "pixel4api30aospatd"
+    useConnectedDevices = false
+    @Suppress("UnstableApiUsage")
+    enableEmulatorDisplay = true
 }
