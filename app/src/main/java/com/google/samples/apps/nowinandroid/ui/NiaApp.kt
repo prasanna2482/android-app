@@ -59,8 +59,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import com.google.samples.apps.nowinandroid.R
 import com.google.samples.apps.nowinandroid.core.data.repository.UserNewsResourceRepository
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
@@ -146,7 +144,7 @@ fun NiaApp(
                             destinations = appState.topLevelDestinations,
                             destinationsWithUnreadResources = unreadDestinations,
                             onNavigateToDestination = appState::navigateToTopLevelDestination,
-                            currentDestination = appState.currentDestination,
+                            currentTopLevelDestination = appState.currentTopLevelDestination,
                             modifier = Modifier.testTag("NiaBottomBar"),
                         )
                     }
@@ -168,7 +166,7 @@ fun NiaApp(
                             destinations = appState.topLevelDestinations,
                             destinationsWithUnreadResources = unreadDestinations,
                             onNavigateToDestination = appState::navigateToTopLevelDestination,
-                            currentDestination = appState.currentDestination,
+                            currentTopLevelDestination = appState.currentTopLevelDestination,
                             modifier = Modifier
                                 .testTag("NiaNavRail")
                                 .safeDrawingPadding(),
@@ -219,12 +217,12 @@ private fun NiaNavRail(
     destinations: List<TopLevelDestination>,
     destinationsWithUnreadResources: Set<TopLevelDestination>,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?,
+    currentTopLevelDestination: TopLevelDestination?,
     modifier: Modifier = Modifier,
 ) {
     NiaNavigationRail(modifier = modifier) {
         destinations.forEach { destination ->
-            val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
+            val selected = destination == currentTopLevelDestination
             val hasUnread = destinationsWithUnreadResources.contains(destination)
             NiaNavigationRailItem(
                 selected = selected,
@@ -253,7 +251,7 @@ private fun NiaBottomBar(
     destinations: List<TopLevelDestination>,
     destinationsWithUnreadResources: Set<TopLevelDestination>,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?,
+    currentTopLevelDestination: TopLevelDestination?,
     modifier: Modifier = Modifier,
 ) {
     NiaNavigationBar(
@@ -261,7 +259,7 @@ private fun NiaBottomBar(
     ) {
         destinations.forEach { destination ->
             val hasUnread = destinationsWithUnreadResources.contains(destination)
-            val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
+            val selected = destination == currentTopLevelDestination
             NiaNavigationBarItem(
                 selected = selected,
                 onClick = { onNavigateToDestination(destination) },
@@ -302,8 +300,3 @@ private fun Modifier.notificationDot(): Modifier =
             )
         }
     }
-
-private fun NavDestination?.isTopLevelDestinationInHierarchy(destination: TopLevelDestination) =
-    this?.hierarchy?.any {
-        it.route?.contains(destination.name, true) ?: false
-    } ?: false

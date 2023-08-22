@@ -19,25 +19,30 @@ package com.google.samples.apps.nowinandroid.ui
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.get
 import androidx.navigation.navOptions
 import androidx.tracing.trace
 import com.google.samples.apps.nowinandroid.core.data.repository.UserNewsResourceRepository
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.ui.TrackDisposableJank
-import com.google.samples.apps.nowinandroid.feature.bookmarks.navigation.bookmarksRoute
 import com.google.samples.apps.nowinandroid.feature.bookmarks.navigation.navigateToBookmarks
-import com.google.samples.apps.nowinandroid.feature.foryou.navigation.forYouNavigationRoute
 import com.google.samples.apps.nowinandroid.feature.foryou.navigation.navigateToForYou
-import com.google.samples.apps.nowinandroid.feature.interests.navigation.interestsRoute
 import com.google.samples.apps.nowinandroid.feature.interests.navigation.navigateToInterestsGraph
 import com.google.samples.apps.nowinandroid.feature.search.navigation.navigateToSearch
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination
@@ -90,11 +95,36 @@ class NiaAppState(
             .currentBackStackEntryAsState().value?.destination
 
     val currentTopLevelDestination: TopLevelDestination?
-        @Composable get() = when (currentDestination?.route) {
-            forYouNavigationRoute -> FOR_YOU
-            bookmarksRoute -> BOOKMARKS
-            interestsRoute -> INTERESTS
-            else -> null
+        @Composable get() {
+            // TODO: Read backStack directly from the navController when
+            //  https://issuetracker.google.com/issues/295553995 is resolved.
+            // Get compose navigator so backstack can be read
+            val composeNavigator = remember {
+                navController.navigatorProvider[ComposeNavigator::class]
+            }
+            // The navigator needs to be attached before the backstack can be read
+            var navigatorAttached by remember { mutableStateOf(false) }
+            // When the current destination has changed, the navigator
+            // is guaranteed to be attached
+            DisposableEffect(navController) {
+                val onDestinationChangedListener =
+                    NavController.OnDestinationChangedListener { _, _, _ ->
+                        navigatorAttached = true
+                    }
+                navController.addOnDestinationChangedListener(onDestinationChangedListener)
+                onDispose {
+                    navController.removeOnDestinationChangedListener(onDestinationChangedListener)
+                }
+            }
+            return when (navigatorAttached) {
+                false -> null
+                true ->
+                    composeNavigator
+                        .backStack
+                        .collectAsStateWithLifecycle()
+                        .value
+                        .currentTopLevelDestination(topLevelDestinations)
+            }
         }
 
     val shouldShowBottomBar: Boolean
@@ -186,3 +216,28 @@ private fun NavigationTrackingSideEffect(navController: NavHostController) {
         }
     }
 }
+
+/**
+ * Walks the backstack to determine the current [TopLevelDestination] in focus.
+ */
+private fun List<NavBackStackEntry>.currentTopLevelDestination(
+    topLevelDestinations: List<TopLevelDestination>,
+): TopLevelDestination? {
+    // Walk the back stack from the top to find the first entry that matches a
+    // top level destination
+    for (index in lastIndex downTo 0) {
+        val firstMatch = topLevelDestinations.firstOrNull(this[index]::matches)
+        if (firstMatch != null) return firstMatch
+    }
+    return null
+}
+
+/**
+ * Checks if a [NavBackStackEntry] matches a [TopLevelDestination]
+ */
+private fun NavBackStackEntry.matches(
+    topLevelDestination: TopLevelDestination,
+) = destination.route?.contains(
+    other = topLevelDestination.name,
+    ignoreCase = true,
+) ?: false
