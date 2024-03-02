@@ -25,6 +25,7 @@ import com.google.samples.apps.nowinandroid.core.database.model.asExternalModel
 import com.google.samples.apps.nowinandroid.core.database.model.asFtsEntity
 import com.google.samples.apps.nowinandroid.core.model.data.SearchResult
 import com.google.samples.apps.nowinandroid.core.network.Dispatcher
+import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.Default
 import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.IO
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -42,6 +43,7 @@ internal class DefaultSearchContentsRepository @Inject constructor(
     private val topicDao: TopicDao,
     private val topicFtsDao: TopicFtsDao,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : SearchContentsRepository {
 
     override suspend fun populateFtsData() {
@@ -75,10 +77,12 @@ internal class DefaultSearchContentsRepository @Inject constructor(
             .distinctUntilChanged()
             .flatMapLatest(topicDao::getTopicEntities)
         return combine(newsResourcesFlow, topicsFlow) { newsResources, topics ->
-            SearchResult(
-                topics = topics.map { it.asExternalModel() },
-                newsResources = newsResources.map { it.asExternalModel() },
-            )
+            withContext(defaultDispatcher) {
+                SearchResult(
+                    topics = topics.map { it.asExternalModel() },
+                    newsResources = newsResources.map { it.asExternalModel() },
+                )
+            }
         }
     }
 
@@ -87,6 +91,8 @@ internal class DefaultSearchContentsRepository @Inject constructor(
             newsResourceFtsDao.getCount(),
             topicFtsDao.getCount(),
         ) { newsResourceCount, topicsCount ->
-            newsResourceCount + topicsCount
+            withContext(defaultDispatcher) {
+                newsResourceCount + topicsCount
+            }
         }
 }

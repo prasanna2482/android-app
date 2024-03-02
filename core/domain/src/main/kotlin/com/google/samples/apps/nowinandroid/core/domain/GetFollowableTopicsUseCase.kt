@@ -21,8 +21,12 @@ import com.google.samples.apps.nowinandroid.core.data.repository.UserDataReposit
 import com.google.samples.apps.nowinandroid.core.domain.TopicSortField.NAME
 import com.google.samples.apps.nowinandroid.core.domain.TopicSortField.NONE
 import com.google.samples.apps.nowinandroid.core.model.data.FollowableTopic
+import com.google.samples.apps.nowinandroid.core.network.Dispatcher
+import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.Default
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -31,6 +35,7 @@ import javax.inject.Inject
 class GetFollowableTopicsUseCase @Inject constructor(
     private val topicsRepository: TopicsRepository,
     private val userDataRepository: UserDataRepository,
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
 ) {
     /**
      * Returns a list of topics with their associated followed state.
@@ -41,16 +46,18 @@ class GetFollowableTopicsUseCase @Inject constructor(
         userDataRepository.userData,
         topicsRepository.getTopics(),
     ) { userData, topics ->
-        val followedTopics = topics
-            .map { topic ->
-                FollowableTopic(
-                    topic = topic,
-                    isFollowed = topic.id in userData.followedTopics,
-                )
+        withContext(defaultDispatcher) {
+            val followedTopics = topics
+                .map { topic ->
+                    FollowableTopic(
+                        topic = topic,
+                        isFollowed = topic.id in userData.followedTopics,
+                    )
+                }
+            when (sortBy) {
+                NAME -> followedTopics.sortedBy { it.topic.name }
+                else -> followedTopics
             }
-        when (sortBy) {
-            NAME -> followedTopics.sortedBy { it.topic.name }
-            else -> followedTopics
         }
     }
 }
