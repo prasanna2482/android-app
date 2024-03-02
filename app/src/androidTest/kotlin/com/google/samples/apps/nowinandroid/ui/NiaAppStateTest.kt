@@ -34,6 +34,7 @@ import com.google.samples.apps.nowinandroid.core.data.repository.CompositeUserNe
 import com.google.samples.apps.nowinandroid.core.testing.repository.TestNewsRepository
 import com.google.samples.apps.nowinandroid.core.testing.repository.TestUserDataRepository
 import com.google.samples.apps.nowinandroid.core.testing.util.TestNetworkMonitor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -60,7 +61,7 @@ class NiaAppStateTest {
     private val networkMonitor = TestNetworkMonitor()
 
     private val userNewsResourceRepository =
-        CompositeUserNewsResourceRepository(TestNewsRepository(), TestUserDataRepository())
+        CompositeUserNewsResourceRepository(TestNewsRepository(), TestUserDataRepository(), Dispatchers.Default)
 
     // Subject under test.
     private lateinit var state: NiaAppState
