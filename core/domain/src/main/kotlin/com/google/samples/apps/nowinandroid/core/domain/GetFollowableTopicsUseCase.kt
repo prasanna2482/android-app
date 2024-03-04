@@ -26,7 +26,7 @@ import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.Default
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -46,20 +46,18 @@ class GetFollowableTopicsUseCase @Inject constructor(
         userDataRepository.userData,
         topicsRepository.getTopics(),
     ) { userData, topics ->
-        withContext(defaultDispatcher) {
-            val followedTopics = topics
-                .map { topic ->
-                    FollowableTopic(
-                        topic = topic,
-                        isFollowed = topic.id in userData.followedTopics,
-                    )
-                }
-            when (sortBy) {
-                NAME -> followedTopics.sortedBy { it.topic.name }
-                else -> followedTopics
+        val followedTopics = topics
+            .map { topic ->
+                FollowableTopic(
+                    topic = topic,
+                    isFollowed = topic.id in userData.followedTopics,
+                )
             }
+        when (sortBy) {
+            NAME -> followedTopics.sortedBy { it.topic.name }
+            else -> followedTopics
         }
-    }
+    }.flowOn(defaultDispatcher)
 }
 
 enum class TopicSortField {

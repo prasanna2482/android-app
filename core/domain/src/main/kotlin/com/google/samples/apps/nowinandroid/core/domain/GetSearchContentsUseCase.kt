@@ -28,7 +28,7 @@ import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.Default
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -52,20 +52,18 @@ private fun Flow<SearchResult>.mapToUserSearchResult(
     defaultDispatcher: CoroutineDispatcher,
 ): Flow<UserSearchResult> =
     combine(userDataStream) { searchResult, userData ->
-        withContext(defaultDispatcher) {
-            UserSearchResult(
-                topics = searchResult.topics.map { topic ->
-                    FollowableTopic(
-                        topic = topic,
-                        isFollowed = topic.id in userData.followedTopics,
-                    )
-                },
-                newsResources = searchResult.newsResources.map { news ->
-                    UserNewsResource(
-                        newsResource = news,
-                        userData = userData,
-                    )
-                },
-            )
-        }
-    }
+        UserSearchResult(
+            topics = searchResult.topics.map { topic ->
+                FollowableTopic(
+                    topic = topic,
+                    isFollowed = topic.id in userData.followedTopics,
+                )
+            },
+            newsResources = searchResult.newsResources.map { news ->
+                UserNewsResource(
+                    newsResource = news,
+                    userData = userData,
+                )
+            },
+        )
+    }.flowOn(defaultDispatcher)

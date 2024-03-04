@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -77,13 +78,11 @@ internal class DefaultSearchContentsRepository @Inject constructor(
             .distinctUntilChanged()
             .flatMapLatest(topicDao::getTopicEntities)
         return combine(newsResourcesFlow, topicsFlow) { newsResources, topics ->
-            withContext(defaultDispatcher) {
-                SearchResult(
-                    topics = topics.map { it.asExternalModel() },
-                    newsResources = newsResources.map { it.asExternalModel() },
-                )
-            }
-        }
+            SearchResult(
+                topics = topics.map { it.asExternalModel() },
+                newsResources = newsResources.map { it.asExternalModel() },
+            )
+        }.flowOn(defaultDispatcher)
     }
 
     override fun getSearchContentsCount(): Flow<Int> =
@@ -91,8 +90,6 @@ internal class DefaultSearchContentsRepository @Inject constructor(
             newsResourceFtsDao.getCount(),
             topicFtsDao.getCount(),
         ) { newsResourceCount, topicsCount ->
-            withContext(defaultDispatcher) {
-                newsResourceCount + topicsCount
-            }
-        }
+            newsResourceCount + topicsCount
+        }.flowOn(defaultDispatcher)
 }
