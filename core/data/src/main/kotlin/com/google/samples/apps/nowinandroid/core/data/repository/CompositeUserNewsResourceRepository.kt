@@ -26,8 +26,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -48,10 +48,10 @@ class CompositeUserNewsResourceRepository @Inject constructor(
     ): Flow<List<UserNewsResource>> =
         newsRepository.getNewsResources(query)
             .combine(userDataRepository.userData) { newsResources, userData ->
-                withContext(defaultDispatcher) {
                     newsResources.mapToUserNewsResources(userData)
-                }
-            }
+            }.flowOn(
+                defaultDispatcher
+            )
 
     /**
      * Returns available news resources (joined with user data) for the followed topics.
