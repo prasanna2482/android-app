@@ -48,10 +48,8 @@ class CompositeUserNewsResourceRepository @Inject constructor(
     ): Flow<List<UserNewsResource>> =
         newsRepository.getNewsResources(query)
             .combine(userDataRepository.userData) { newsResources, userData ->
-                    newsResources.mapToUserNewsResources(userData)
-            }.flowOn(
-                defaultDispatcher
-            )
+                newsResources.mapToUserNewsResources(userData)
+            }.flowOn(defaultDispatcher)
 
     /**
      * Returns available news resources (joined with user data) for the followed topics.

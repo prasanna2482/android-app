@@ -65,7 +65,11 @@ class NiaAppStateTest {
     private val timeZoneMonitor = TestTimeZoneMonitor()
 
     private val userNewsResourceRepository =
-        CompositeUserNewsResourceRepository(TestNewsRepository(), TestUserDataRepository(), Dispatchers.Default)
+        CompositeUserNewsResourceRepository(
+            TestNewsRepository(),
+            TestUserDataRepository(),
+            Dispatchers.Default,
+        )
 
     // Subject under test.
     private lateinit var state: NiaAppState
