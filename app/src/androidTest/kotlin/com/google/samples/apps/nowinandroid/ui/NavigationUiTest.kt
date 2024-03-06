@@ -77,7 +77,7 @@ class NavigationUiTest {
     @get:Rule(order = 3)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
-    val userNewsResourceRepository = CompositeUserNewsResourceRepository(
+    private val userNewsResourceRepository = CompositeUserNewsResourceRepository(
         newsRepository = TestNewsRepository(),
         userDataRepository = TestUserDataRepository(),
         defaultDispatcher = Dispatchers.Default,
