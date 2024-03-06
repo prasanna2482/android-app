@@ -22,6 +22,7 @@ import com.google.samples.apps.nowinandroid.core.model.data.Topic
 import com.google.samples.apps.nowinandroid.core.testing.repository.TestTopicsRepository
 import com.google.samples.apps.nowinandroid.core.testing.repository.TestUserDataRepository
 import com.google.samples.apps.nowinandroid.core.testing.util.MainDispatcherRule
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -39,6 +40,7 @@ class GetFollowableTopicsUseCaseTest {
     val useCase = GetFollowableTopicsUseCase(
         topicsRepository,
         userDataRepository,
+        defaultDispatcher = Dispatchers.Default,
     )
 
     @Test
