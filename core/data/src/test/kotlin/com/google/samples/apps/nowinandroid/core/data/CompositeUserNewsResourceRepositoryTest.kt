@@ -24,14 +24,18 @@ import com.google.samples.apps.nowinandroid.core.model.data.mapToUserNewsResourc
 import com.google.samples.apps.nowinandroid.core.testing.repository.TestNewsRepository
 import com.google.samples.apps.nowinandroid.core.testing.repository.TestUserDataRepository
 import com.google.samples.apps.nowinandroid.core.testing.repository.emptyUserData
-import kotlinx.coroutines.Dispatchers
+import com.google.samples.apps.nowinandroid.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
+import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class CompositeUserNewsResourceRepositoryTest {
+
+    @get:Rule
+    val dispatcherRule = MainDispatcherRule()
 
     private val newsRepository = TestNewsRepository()
     private val userDataRepository = TestUserDataRepository()
