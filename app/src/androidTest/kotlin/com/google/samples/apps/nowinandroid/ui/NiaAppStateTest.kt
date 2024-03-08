@@ -66,9 +66,9 @@ class NiaAppStateTest {
 
     private val userNewsResourceRepository =
         CompositeUserNewsResourceRepository(
-            TestNewsRepository(),
-            TestUserDataRepository(),
-            Dispatchers.Default,
+            newsRepository =  TestNewsRepository(),
+            userDataRepository =  TestUserDataRepository(),
+            defaultDispatcher =  Dispatchers.Default,
         )
 
     // Subject under test.
