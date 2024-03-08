@@ -30,6 +30,10 @@ import org.junit.runner.Description
  * for the duration of the test.
  */
 class MainDispatcherRule(
+    /**
+     * Expose testDispatcher to share the scheduler to the test.
+     * See more in [Documentation](https://developer.android.com/kotlin/coroutines/test#injecting-test-dispatchers)
+     */
     val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
 ) : TestWatcher() {
     override fun starting(description: Description) = Dispatchers.setMain(testDispatcher)
