@@ -38,8 +38,8 @@ class GetFollowableTopicsUseCaseTest {
     private val userDataRepository = TestUserDataRepository()
 
     val useCase = GetFollowableTopicsUseCase(
-        topicsRepository,
-        userDataRepository,
+        topicsRepository = topicsRepository,
+        userDataRepository = userDataRepository,
         defaultDispatcher = Dispatchers.Default,
     )
 
