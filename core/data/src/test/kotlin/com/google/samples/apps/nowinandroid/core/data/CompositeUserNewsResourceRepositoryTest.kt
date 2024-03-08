@@ -43,7 +43,7 @@ class CompositeUserNewsResourceRepositoryTest {
     private val userNewsResourceRepository = CompositeUserNewsResourceRepository(
         newsRepository = newsRepository,
         userDataRepository = userDataRepository,
-        defaultDispatcher = Dispatchers.Default,
+        defaultDispatcher = dispatcherRule.testDispatcher,
     )
 
     @Test

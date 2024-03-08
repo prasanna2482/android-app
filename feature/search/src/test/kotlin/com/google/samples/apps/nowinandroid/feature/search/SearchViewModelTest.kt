@@ -32,7 +32,6 @@ import com.google.samples.apps.nowinandroid.feature.search.RecentSearchQueriesUi
 import com.google.samples.apps.nowinandroid.feature.search.SearchResultUiState.EmptyQuery
 import com.google.samples.apps.nowinandroid.feature.search.SearchResultUiState.Loading
 import com.google.samples.apps.nowinandroid.feature.search.SearchResultUiState.SearchNotReady
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -57,7 +56,7 @@ class SearchViewModelTest {
     private val getSearchContentsUseCase = GetSearchContentsUseCase(
         searchContentsRepository = searchContentsRepository,
         userDataRepository = userDataRepository,
-        defaultDispatcher = Dispatchers.Default,
+        defaultDispatcher = dispatcherRule.testDispatcher,
     )
     private val recentSearchRepository = TestRecentSearchRepository()
     private val getRecentQueryUseCase = GetRecentSearchQueriesUseCase(recentSearchRepository)

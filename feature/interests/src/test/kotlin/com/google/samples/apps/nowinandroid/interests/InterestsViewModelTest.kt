@@ -24,7 +24,6 @@ import com.google.samples.apps.nowinandroid.core.testing.repository.TestUserData
 import com.google.samples.apps.nowinandroid.core.testing.util.MainDispatcherRule
 import com.google.samples.apps.nowinandroid.feature.interests.InterestsUiState
 import com.google.samples.apps.nowinandroid.feature.interests.InterestsViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -48,7 +47,7 @@ class InterestsViewModelTest {
     private val getFollowableTopicsUseCase = GetFollowableTopicsUseCase(
         topicsRepository = topicsRepository,
         userDataRepository = userDataRepository,
-        defaultDispatcher = Dispatchers.Default,
+        defaultDispatcher = mainDispatcherRule.testDispatcher,
     )
     private lateinit var viewModel: InterestsViewModel
 

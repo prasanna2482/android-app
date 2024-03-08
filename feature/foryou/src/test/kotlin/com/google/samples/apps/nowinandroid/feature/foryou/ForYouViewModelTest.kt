@@ -35,7 +35,6 @@ import com.google.samples.apps.nowinandroid.core.testing.util.TestAnalyticsHelpe
 import com.google.samples.apps.nowinandroid.core.testing.util.TestSyncManager
 import com.google.samples.apps.nowinandroid.core.ui.NewsFeedUiState
 import com.google.samples.apps.nowinandroid.feature.foryou.navigation.LINKED_NEWS_RESOURCE_ID
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -65,13 +64,13 @@ class ForYouViewModelTest {
     private val userNewsResourceRepository = CompositeUserNewsResourceRepository(
         newsRepository = newsRepository,
         userDataRepository = userDataRepository,
-        defaultDispatcher = Dispatchers.Default,
+        defaultDispatcher = mainDispatcherRule.testDispatcher,
     )
 
     private val getFollowableTopicsUseCase = GetFollowableTopicsUseCase(
         topicsRepository = topicsRepository,
         userDataRepository = userDataRepository,
-        defaultDispatcher = Dispatchers.Default,
+        defaultDispatcher = mainDispatcherRule.testDispatcher,
     )
     private val savedStateHandle = SavedStateHandle()
     private lateinit var viewModel: ForYouViewModel

@@ -26,7 +26,6 @@ import com.google.samples.apps.nowinandroid.core.testing.repository.TestTopicsRe
 import com.google.samples.apps.nowinandroid.core.testing.repository.TestUserDataRepository
 import com.google.samples.apps.nowinandroid.core.testing.util.MainDispatcherRule
 import com.google.samples.apps.nowinandroid.feature.topic.navigation.TOPIC_ID_ARG
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -55,7 +54,7 @@ class TopicViewModelTest {
     private val userNewsResourceRepository = CompositeUserNewsResourceRepository(
         newsRepository = newsRepository,
         userDataRepository = userDataRepository,
-        defaultDispatcher = Dispatchers.Default,
+        defaultDispatcher = dispatcherRule.testDispatcher,
     )
     private lateinit var viewModel: TopicViewModel
 
