@@ -34,26 +34,10 @@ class NewsResourceFtsDaoTest {
     private lateinit var db: NiaDatabase
 
     private val newsResourceFtsEntities = listOf(
-        NewsResourceFtsEntity(
-            newsResourceId = "0",
-            title = "test0",
-            content = "content0",
-        ),
-        NewsResourceFtsEntity(
-            newsResourceId = "1",
-            title = "test1",
-            content = "content1",
-        ),
-        NewsResourceFtsEntity(
-            newsResourceId = "2",
-            title = "test2",
-            content = "content2",
-        ),
-        NewsResourceFtsEntity(
-            newsResourceId = "3",
-            title = "test3",
-            content = "content3",
-        ),
+        testNewsResourceFtsEntity(number = "0"),
+        testNewsResourceFtsEntity(number = "1"),
+        testNewsResourceFtsEntity(number = "2"),
+        testNewsResourceFtsEntity(number = "3"),
     )
 
     @Before
