@@ -95,4 +95,12 @@ class NewsResourceFtsDaoTest {
 
     private suspend fun insertAllNewsResourceFtsEntities() =
         newsResourceFtsDao.insertAll(newsResources = newsResourceFtsEntities)
+
+    private fun testNewsResourceFtsEntity(
+        number: String,
+    ) = NewsResourceFtsEntity(
+        newsResourceId = number,
+        title = "title$number",
+        content = "content$number",
+    )
 }
