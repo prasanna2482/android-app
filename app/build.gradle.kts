@@ -24,6 +24,7 @@ plugins {
     id("jacoco")
     alias(libs.plugins.nowinandroid.android.application.firebase)
     id("com.google.android.gms.oss-licenses-plugin")
+    id("com.google.firebase.testlab")
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.roborazzi)
 }
@@ -62,6 +63,16 @@ android {
     packaging {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
+    }
+    firebaseTestLab {
+        serviceAccountCredentials.set(file("service-account.json"))
+
+        managedDevices {
+            create("myFtlDevice") {
+                device = "panther" // Pixel 7
+                apiLevel = 33
+            }
         }
     }
     testOptions {
