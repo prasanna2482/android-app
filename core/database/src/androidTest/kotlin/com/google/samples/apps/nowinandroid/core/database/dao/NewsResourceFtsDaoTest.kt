@@ -58,7 +58,7 @@ class NewsResourceFtsDaoTest {
     @Test
     fun whenInsertOnce_InsertedNewsResourceEntityOnce() = runTest {
         insertAllNewsResourceFtsEntities()
-        assertEquals(4, newsResourceFtsDao.getCount().first())
+        assertEquals(newsResourceFtsEntities.size, newsResourceFtsDao.getCount().first())
     }
 
     @Test
@@ -66,7 +66,7 @@ class NewsResourceFtsDaoTest {
         repeat(2) {
             newsResourceFtsDao.insertAll(newsResources = newsResourceFtsEntities)
         }
-        assertEquals(8, newsResourceFtsDao.getCount().first())
+        assertEquals(newsResourceFtsEntities.size * 2, newsResourceFtsDao.getCount().first())
     }
 
     @Test
@@ -74,7 +74,7 @@ class NewsResourceFtsDaoTest {
         repeat(3) {
             newsResourceFtsDao.deleteAllAndInsertAll(newsResources = newsResourceFtsEntities)
         }
-        assertEquals(4, newsResourceFtsDao.getCount().first())
+        assertEquals(newsResourceFtsEntities.size, newsResourceFtsDao.getCount().first())
     }
 
     private suspend fun insertAllNewsResourceFtsEntities() =
