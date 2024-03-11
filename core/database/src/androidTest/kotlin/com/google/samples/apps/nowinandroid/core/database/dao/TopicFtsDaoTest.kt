@@ -21,6 +21,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.google.samples.apps.nowinandroid.core.database.NiaDatabase
 import com.google.samples.apps.nowinandroid.core.database.model.TopicFtsEntity
+import com.google.samples.apps.nowinandroid.core.database.model.asFtsEntity
+import com.google.samples.apps.nowinandroid.core.testing.database.topicEntitiesTestData
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -33,21 +35,20 @@ class TopicFtsDaoTest {
     private lateinit var topicFtsDao: TopicFtsDao
     private lateinit var db: NiaDatabase
 
-    private val topicFtsEntities = listOf(
-        testTopicFtsEntity("0"),
-        testTopicFtsEntity("1"),
-        testTopicFtsEntity("2"),
-        testTopicFtsEntity("3"),
-    )
+    private lateinit var topicFtsEntities: List<TopicFtsEntity>
 
     @Before
-    fun createDb() {
+    fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context,
             NiaDatabase::class.java,
         ).build()
         topicFtsDao = db.topicFtsDao()
+
+        topicFtsEntities = topicEntitiesTestData.map {
+            it.asFtsEntity()
+        }
     }
 
     @After
@@ -58,7 +59,7 @@ class TopicFtsDaoTest {
     @Test
     fun whenInsertOnce_InsertedTopicsFtsEntityOnce() = runTest {
         insertAllNewsResourceFtsEntities()
-        assertEquals(4, topicFtsDao.getCount().first())
+        assertEquals(topicFtsEntities.size, topicFtsDao.getCount().first())
     }
 
     @Test
@@ -66,7 +67,7 @@ class TopicFtsDaoTest {
         repeat(2) {
             topicFtsDao.insertAll(topics = topicFtsEntities)
         }
-        assertEquals(8, topicFtsDao.getCount().first())
+        assertEquals(topicFtsEntities.size * 2, topicFtsDao.getCount().first())
     }
 
     @Test
@@ -74,18 +75,9 @@ class TopicFtsDaoTest {
         repeat(3) {
             topicFtsDao.deleteAllAndInsertAll(topics = topicFtsEntities)
         }
-        assertEquals(4, topicFtsDao.getCount().first())
+        assertEquals(topicFtsEntities.size, topicFtsDao.getCount().first())
     }
 
     private suspend fun insertAllNewsResourceFtsEntities() =
         topicFtsDao.insertAll(topics = topicFtsEntities)
-
-    private fun testTopicFtsEntity(
-        number: String,
-    ) = TopicFtsEntity(
-        topicId = number,
-        name = "name$number",
-        shortDescription = "Short description$number",
-        longDescription = "Long description$number",
-    )
 }
