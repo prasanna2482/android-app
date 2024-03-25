@@ -23,7 +23,13 @@ val newsResourceEntitiesTestData: List<NewsResourceEntity> = listOf(
     NewsResourceEntity(
         id = "1",
         title = "Android Basics with Compose",
-        content = "We released the first two units of Android Basics with Compose, our first free course that teaches Android Development with Jetpack Compose to anyone; you do not need any prior programming experience other than basic computer literacy to get started. You’ll learn the fundamentals of programming in Kotlin while building Android apps using Jetpack Compose, Android’s modern toolkit that simplifies and accelerates native UI development. These two units are just the beginning; more will be coming soon. Check out Android Basics with Compose to get started on your Android development journey",
+        content = "We released the first two units of Android Basics with Compose, " +
+            "our first free course that teaches Android Development with Jetpack Compose to anyone; " +
+            "you do not need any prior programming experience other than basic computer literacy to get started. " +
+            "You’ll learn the fundamentals of programming in Kotlin while building Android apps using Jetpack Compose, " +
+            "Android’s modern toolkit that simplifies and accelerates native UI development. " +
+            "These two units are just the beginning; more will be coming soon. " +
+            "Check out Android Basics with Compose to get started on your Android development journey",
         url = "https://android-developers.googleblog.com/2022/05/new-android-basics-with-compose-course.html",
         headerImageUrl = "https://developer.android.com/images/hero-assets/android-basics-compose.svg",
         publishDate = Instant.parse("2021-11-09T00:00:00.000Z"),
