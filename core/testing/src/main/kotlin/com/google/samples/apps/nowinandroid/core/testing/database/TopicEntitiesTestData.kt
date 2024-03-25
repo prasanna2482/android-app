@@ -18,6 +18,9 @@ package com.google.samples.apps.nowinandroid.core.testing.database
 
 import com.google.samples.apps.nowinandroid.core.database.model.TopicEntity
 
+/**
+ * Test data list of [TopicEntity].
+ */
 val topicEntitiesTestData: List<TopicEntity> = listOf(
     TopicEntity(
         id = "2",

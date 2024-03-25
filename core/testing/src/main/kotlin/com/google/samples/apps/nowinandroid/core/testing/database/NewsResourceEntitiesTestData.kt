@@ -19,6 +19,9 @@ package com.google.samples.apps.nowinandroid.core.testing.database
 import com.google.samples.apps.nowinandroid.core.database.model.NewsResourceEntity
 import kotlinx.datetime.Instant
 
+/**
+ * Test data list of [NewsResourceEntity].
+ */
 val newsResourceEntitiesTestData: List<NewsResourceEntity> = listOf(
     NewsResourceEntity(
         id = "1",
