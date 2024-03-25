@@ -30,6 +30,9 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
+/**
+ * Instrumentation tests for [TopicFtsDao].
+ */
 class TopicFtsDaoTest {
 
     private lateinit var topicFtsDao: TopicFtsDao
