@@ -14,7 +14,7 @@
  *   limitations under the License.
  */
 
-import com.google.samples.apps.nowinandroid.configureKotlinJvm
+import com.google.samples.apps.nowinandroid.configureToolChain
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -25,7 +25,7 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.jvm")
                 apply("nowinandroid.android.lint")
             }
-            configureKotlinJvm()
+            configureToolChain()
         }
     }
 }
