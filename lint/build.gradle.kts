@@ -20,12 +20,10 @@ plugins {
     alias(libs.plugins.nowinandroid.android.lint)
 }
 
-java {
+kotlin {
     // Up to Java 11 APIs are available through desugaring
     // https://developer.android.com/studio/write/java11-minimal-support-table
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
+    jvmToolchain(11)
 }
 
 dependencies {
