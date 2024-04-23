@@ -56,11 +56,8 @@ internal fun Project.configureKotlinAndroid(
  */
 internal fun Project.configureToolChain() {
     configure<JavaPluginExtension> {
-        // Up to Java 11 APIs are available through desugaring
-        // https://developer.android.com/studio/write/java11-minimal-support-table
-        // Set Toolchain 11
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(11))
+            languageVersion.set(JavaLanguageVersion.of(17))
         }
     }
 
