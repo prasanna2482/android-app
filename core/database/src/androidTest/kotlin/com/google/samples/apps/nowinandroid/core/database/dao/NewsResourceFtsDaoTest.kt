@@ -21,6 +21,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.google.samples.apps.nowinandroid.core.database.NiaDatabase
 import com.google.samples.apps.nowinandroid.core.database.model.NewsResourceFtsEntity
+import com.google.samples.apps.nowinandroid.core.database.model.asFtsEntity
+import com.google.samples.apps.nowinandroid.core.testing.database.newsResourceEntitiesTestData
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -46,6 +48,10 @@ class NewsResourceFtsDaoTest {
             NiaDatabase::class.java,
         ).build()
         newsResourceFtsDao = db.newsResourceFtsDao()
+
+        newsResourceFtsEntities = newsResourceEntitiesTestData.map {
+            it.asFtsEntity()
+        }
     }
 
     @After
