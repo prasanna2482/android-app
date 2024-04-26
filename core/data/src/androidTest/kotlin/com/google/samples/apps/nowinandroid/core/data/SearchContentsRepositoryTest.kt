@@ -52,6 +52,7 @@ class SearchContentsRepositoryTest {
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
+
         db = Room.inMemoryDatabaseBuilder(
             context,
             NiaDatabase::class.java,
@@ -74,7 +75,7 @@ class SearchContentsRepositoryTest {
     fun closeDb() = db.close()
 
     @Test
-    fun whenPopulateFtsDataTwice_PopulateFtsOnce() = runTest {
+    fun ftsEntities_insertAllTwice_countMatches() = runTest {
         allDataPreSetting()
         repeat(2) {
             searchContentsRepository.populateFtsData()
@@ -84,7 +85,7 @@ class SearchContentsRepositoryTest {
     }
 
     @Test
-    fun whenSearchAndroid_ReturnResult() = runTest {
+    fun searchQuery_searchAndroid_findResult() = runTest {
         allDataPreSetting()
         searchContentsRepository.populateFtsData()
 
