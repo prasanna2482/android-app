@@ -72,7 +72,7 @@ class NewsResourceFtsDaoTest {
     }
 
     @Test
-    fun newsResourceFts_deleteAndInsertAllThreeTimes_countMatches() = runTest {
+    fun newsResourceFts_insertAllThreeTimes_countMatches() = runTest {
         repeat(3) {
             newsResourceFtsDao.deleteAllAndInsertAll(newsResources = newsResourceFtsEntities)
         }

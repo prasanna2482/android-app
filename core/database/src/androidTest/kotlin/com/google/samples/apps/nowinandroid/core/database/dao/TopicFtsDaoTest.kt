@@ -72,7 +72,7 @@ class TopicFtsDaoTest {
     }
 
     @Test
-    fun topicFts_deleteAndInsertAllThreeTimes_countMatches() = runTest {
+    fun topicFts_insertAllThreeTimes_countMatches() = runTest {
         repeat(3) {
             topicFtsDao.deleteAllAndInsertAll(topics = topicFtsEntities)
         }
