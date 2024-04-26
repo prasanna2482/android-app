@@ -55,9 +55,7 @@ class TopicFtsDaoTest {
     }
 
     @After
-    fun closeDb() {
-        db.close()
-    }
+    fun closeDb() = db.close()
 
     @Test
     fun insertAllOnce_countMatches() = runTest {

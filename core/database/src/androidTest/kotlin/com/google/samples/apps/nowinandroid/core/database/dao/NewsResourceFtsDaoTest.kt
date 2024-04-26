@@ -49,9 +49,7 @@ class NewsResourceFtsDaoTest {
     }
 
     @After
-    fun closeDb() {
-        db.close()
-    }
+    fun closeDb() = db.close()
 
     @Test
     fun whenInsertOnce_InsertedNewsResourceEntityOnce() = runTest {
