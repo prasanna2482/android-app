@@ -36,12 +36,7 @@ class NewsResourceFtsDaoTest {
     private lateinit var newsResourceFtsDao: NewsResourceFtsDao
     private lateinit var db: NiaDatabase
 
-    private val newsResourceFtsEntities = listOf(
-        testNewsResourceFtsEntity(number = "0"),
-        testNewsResourceFtsEntity(number = "1"),
-        testNewsResourceFtsEntity(number = "2"),
-        testNewsResourceFtsEntity(number = "3"),
-    )
+    private lateinit var newsResourceFtsEntities: List<NewsResourceFtsEntity>
 
     @Before
     fun createDb() {
@@ -82,12 +77,4 @@ class NewsResourceFtsDaoTest {
 
     private suspend fun insertAllNewsResourceFtsEntities() =
         newsResourceFtsDao.insertAll(newsResources = newsResourceFtsEntities)
-
-    private fun testNewsResourceFtsEntity(
-        number: String,
-    ) = NewsResourceFtsEntity(
-        newsResourceId = number,
-        title = "title$number",
-        content = "content$number",
-    )
 }
