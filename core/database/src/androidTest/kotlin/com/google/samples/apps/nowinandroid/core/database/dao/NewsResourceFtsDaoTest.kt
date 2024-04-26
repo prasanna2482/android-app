@@ -58,13 +58,13 @@ class NewsResourceFtsDaoTest {
     fun closeDb() = db.close()
 
     @Test
-    fun whenInsertOnce_InsertedNewsResourceEntityOnce() = runTest {
+    fun newsResourceFts_insertAllOnce_countMatches() = runTest {
         insertAllNewsResourceFtsEntities()
         assertEquals(newsResourceFtsEntities.size, newsResourceFtsDao.getCount().first())
     }
 
     @Test
-    fun whenInsertTwice_InsertedNewsResourceEntityTwice() = runTest {
+    fun newsResourceFts_insertAllTwice_countMatches() = runTest {
         repeat(2) {
             newsResourceFtsDao.insertAll(newsResources = newsResourceFtsEntities)
         }
@@ -72,7 +72,7 @@ class NewsResourceFtsDaoTest {
     }
 
     @Test
-    fun whenDeleteAndInsertAllThreeTimes_InsertedOnce() = runTest {
+    fun newsResourceFts_deleteAndInsertAllThreeTimes_countMatches() = runTest {
         repeat(3) {
             newsResourceFtsDao.deleteAllAndInsertAll(newsResources = newsResourceFtsEntities)
         }

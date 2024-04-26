@@ -58,13 +58,13 @@ class TopicFtsDaoTest {
     fun closeDb() = db.close()
 
     @Test
-    fun insertAllOnce_countMatches() = runTest {
+    fun topicFts_insertAllOnce_countMatches() = runTest {
         insertAllNewsResourceFtsEntities()
         assertEquals(topicFtsEntities.size, topicFtsDao.getCount().first())
     }
 
     @Test
-    fun insertAllTwice_countMatches() = runTest {
+    fun topicFts_insertAllTwice_countMatches() = runTest {
         repeat(2) {
             topicFtsDao.insertAll(topics = topicFtsEntities)
         }
@@ -72,7 +72,7 @@ class TopicFtsDaoTest {
     }
 
     @Test
-    fun deleteAndInsertAllThreeTimes_countMatches() = runTest {
+    fun topicFts_deleteAndInsertAllThreeTimes_countMatches() = runTest {
         repeat(3) {
             topicFtsDao.deleteAllAndInsertAll(topics = topicFtsEntities)
         }
