@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid.core.domain
 
+import androidx.tracing.trace
 import com.google.samples.apps.nowinandroid.core.data.repository.SearchContentsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
 import com.google.samples.apps.nowinandroid.core.model.data.FollowableTopic
@@ -52,18 +53,20 @@ private fun Flow<SearchResult>.mapToUserSearchResult(
     defaultDispatcher: CoroutineDispatcher,
 ): Flow<UserSearchResult> =
     combine(userDataStream) { searchResult, userData ->
-        UserSearchResult(
-            topics = searchResult.topics.map { topic ->
-                FollowableTopic(
-                    topic = topic,
-                    isFollowed = topic.id in userData.followedTopics,
-                )
-            },
-            newsResources = searchResult.newsResources.map { news ->
-                UserNewsResource(
-                    newsResource = news,
-                    userData = userData,
-                )
-            },
-        )
+        trace("Flow<SearchResult>.mapToUserSearchResult") {
+            UserSearchResult(
+                topics = searchResult.topics.map { topic ->
+                    FollowableTopic(
+                        topic = topic,
+                        isFollowed = topic.id in userData.followedTopics,
+                    )
+                },
+                newsResources = searchResult.newsResources.map { news ->
+                    UserNewsResource(
+                        newsResource = news,
+                        userData = userData,
+                    )
+                },
+            )
+        }
     }.flowOn(defaultDispatcher)

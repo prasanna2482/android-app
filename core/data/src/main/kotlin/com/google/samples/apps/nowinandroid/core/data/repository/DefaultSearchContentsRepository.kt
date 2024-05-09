@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid.core.data.repository
 
+import androidx.tracing.trace
 import com.google.samples.apps.nowinandroid.core.database.dao.NewsResourceDao
 import com.google.samples.apps.nowinandroid.core.database.dao.NewsResourceFtsDao
 import com.google.samples.apps.nowinandroid.core.database.dao.TopicDao
@@ -78,10 +79,12 @@ internal class DefaultSearchContentsRepository @Inject constructor(
             .distinctUntilChanged()
             .flatMapLatest(topicDao::getTopicEntities)
         return combine(newsResourcesFlow, topicsFlow) { newsResources, topics ->
-            SearchResult(
-                topics = topics.map { it.asExternalModel() },
-                newsResources = newsResources.map { it.asExternalModel() },
-            )
+            trace("DefaultSearchContentsRepository.searchContents") {
+                SearchResult(
+                    topics = topics.map { it.asExternalModel() },
+                    newsResources = newsResources.map { it.asExternalModel() },
+                )
+            }
         }.flowOn(defaultDispatcher)
     }
 
@@ -90,6 +93,8 @@ internal class DefaultSearchContentsRepository @Inject constructor(
             newsResourceFtsDao.getCount(),
             topicFtsDao.getCount(),
         ) { newsResourceCount, topicsCount ->
-            newsResourceCount + topicsCount
+            trace("DefaultSearchContentsRepository.getSearchContentsCount") {
+                newsResourceCount + topicsCount
+            }
         }.flowOn(defaultDispatcher)
 }

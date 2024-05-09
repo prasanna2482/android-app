@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid.core.domain
 
+import androidx.tracing.trace
 import com.google.samples.apps.nowinandroid.core.data.repository.TopicsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
 import com.google.samples.apps.nowinandroid.core.domain.TopicSortField.NAME
@@ -46,16 +47,18 @@ class GetFollowableTopicsUseCase @Inject constructor(
         userDataRepository.userData,
         topicsRepository.getTopics(),
     ) { userData, topics ->
-        val followedTopics = topics
-            .map { topic ->
-                FollowableTopic(
-                    topic = topic,
-                    isFollowed = topic.id in userData.followedTopics,
-                )
+        trace("GetFollowableTopicsUseCase.invoke") {
+            val followedTopics = topics
+                .map { topic ->
+                    FollowableTopic(
+                        topic = topic,
+                        isFollowed = topic.id in userData.followedTopics,
+                    )
+                }
+            when (sortBy) {
+                NAME -> followedTopics.sortedBy { it.topic.name }
+                else -> followedTopics
             }
-        when (sortBy) {
-            NAME -> followedTopics.sortedBy { it.topic.name }
-            else -> followedTopics
         }
     }.flowOn(defaultDispatcher)
 }
