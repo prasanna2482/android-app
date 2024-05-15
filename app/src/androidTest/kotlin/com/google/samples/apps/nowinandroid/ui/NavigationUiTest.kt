@@ -38,6 +38,7 @@ import com.google.samples.apps.nowinandroid.uitesthiltmanifest.HiltComponentActi
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -77,9 +78,10 @@ class NavigationUiTest {
     @get:Rule(order = 3)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
-    val userNewsResourceRepository = CompositeUserNewsResourceRepository(
+    private val userNewsResourceRepository = CompositeUserNewsResourceRepository(
         newsRepository = TestNewsRepository(),
         userDataRepository = TestUserDataRepository(),
+        defaultDispatcher = Dispatchers.Default,
     )
 
     @Inject
