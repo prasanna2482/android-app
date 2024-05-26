@@ -23,7 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import com.google.samples.apps.nowinandroid.core.analytics.LocalAnalyticsHelper
+import com.google.samples.apps.nowinandroid.core.analytics.analyticsInstance
 import com.google.samples.apps.nowinandroid.core.model.data.UserNewsResource
 
 /**
@@ -46,7 +46,7 @@ fun LazyListScope.userNewsResourceCardItems(
         val resourceUrl = Uri.parse(userNewsResource.url)
         val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
         val context = LocalContext.current
-        val analyticsHelper = LocalAnalyticsHelper.current
+        val analyticsHelper = analyticsInstance(context)
 
         NewsResourceCardExpanded(
             userNewsResource = userNewsResource,

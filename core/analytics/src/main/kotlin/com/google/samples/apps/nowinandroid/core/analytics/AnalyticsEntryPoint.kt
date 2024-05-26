@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 The Android Open Source Project
+ * Copyright 2024 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,18 @@
 
 package com.google.samples.apps.nowinandroid.core.analytics
 
-import androidx.compose.runtime.staticCompositionLocalOf
+import android.content.Context
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 
-/**
- * Global key used to obtain access to the AnalyticsHelper through a CompositionLocal.
- */
-val LocalAnalyticsHelper = staticCompositionLocalOf<AnalyticsHelper> {
-    // Provide a default AnalyticsHelper which does nothing. This is so that tests and previews
-    // do not have to provide one. For real app builds provide a different implementation.
-    NoOpAnalyticsHelper()
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface AnalyticsEntryPoint {
+    fun get(): AnalyticsHelper
+}
+
+fun analyticsInstance(context: Context): AnalyticsHelper {
+    return EntryPointAccessors.fromApplication(context, AnalyticsEntryPoint::class.java).get()
 }
