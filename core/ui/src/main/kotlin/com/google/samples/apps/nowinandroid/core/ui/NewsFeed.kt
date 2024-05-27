@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -62,7 +63,7 @@ fun LazyStaggeredGridScope.newsFeed(
                 contentType = { "newsFeedItem" },
             ) { userNewsResource ->
                 val context = LocalContext.current
-                val analyticsHelper = analyticsInstance(context)
+                val analyticsHelper = remember { analyticsInstance(context) }
                 val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
 
                 NewsResourceCardExpanded(
