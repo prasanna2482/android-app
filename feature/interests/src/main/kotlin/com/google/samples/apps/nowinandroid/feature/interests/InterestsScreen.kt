@@ -52,6 +52,9 @@ fun InterestsRoute(
         },
         highlightSelectedTopic = highlightSelectedTopic,
         modifier = modifier,
+        trackScreenView = {
+            TrackScreenViewEvent(screenName = "Interests")
+        },
     )
 }
 
@@ -62,6 +65,7 @@ internal fun InterestsScreen(
     onTopicClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     highlightSelectedTopic: Boolean = false,
+    trackScreenView: @Composable () -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -87,7 +91,7 @@ internal fun InterestsScreen(
             is InterestsUiState.Empty -> InterestsEmptyScreen()
         }
     }
-    TrackScreenViewEvent(screenName = "Interests")
+    trackScreenView()
 }
 
 @Composable
@@ -110,6 +114,7 @@ fun InterestsScreenPopulated(
                 ),
                 followTopic = { _, _ -> },
                 onTopicClick = {},
+                trackScreenView = {},
             )
         }
     }
@@ -124,6 +129,7 @@ fun InterestsScreenLoading() {
                 uiState = InterestsUiState.Loading,
                 followTopic = { _, _ -> },
                 onTopicClick = {},
+                trackScreenView = {},
             )
         }
     }
@@ -138,6 +144,7 @@ fun InterestsScreenEmpty() {
                 uiState = InterestsUiState.Empty,
                 followTopic = { _, _ -> },
                 onTopicClick = {},
+                trackScreenView = {},
             )
         }
     }
