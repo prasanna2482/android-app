@@ -18,13 +18,12 @@ package com.google.samples.apps.nowinandroid.core.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.platform.LocalContext
 import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsEvent
 import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsEvent.Param
 import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsEvent.ParamKeys
 import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsEvent.Types
 import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsHelper
-import com.google.samples.apps.nowinandroid.core.analytics.analyticsInstance
+import com.google.samples.apps.nowinandroid.core.analytics.LocalAnalyticsHelper
 
 /**
  * Classes and functions associated with analytics events for the UI.
@@ -57,7 +56,7 @@ fun AnalyticsHelper.logNewsResourceOpened(newsResourceId: String) {
 @Composable
 fun TrackScreenViewEvent(
     screenName: String,
-    analyticsHelper: AnalyticsHelper = analyticsInstance(LocalContext.current),
+    analyticsHelper: AnalyticsHelper = LocalAnalyticsHelper.current,
 ) = DisposableEffect(Unit) {
     analyticsHelper.logScreenView(screenName)
     onDispose {}

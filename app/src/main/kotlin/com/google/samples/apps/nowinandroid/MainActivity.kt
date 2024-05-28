@@ -38,6 +38,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.metrics.performance.JankStats
 import com.google.samples.apps.nowinandroid.MainActivityUiState.Loading
 import com.google.samples.apps.nowinandroid.MainActivityUiState.Success
+import com.google.samples.apps.nowinandroid.core.analytics.AnalyticsHelper
+import com.google.samples.apps.nowinandroid.core.analytics.LocalAnalyticsHelper
 import com.google.samples.apps.nowinandroid.core.data.repository.UserNewsResourceRepository
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.TimeZoneMonitor
@@ -69,6 +71,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var timeZoneMonitor: TimeZoneMonitor
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     @Inject
     lateinit var userNewsResourceRepository: UserNewsResourceRepository
@@ -135,6 +140,7 @@ class MainActivity : ComponentActivity() {
             val currentTimeZone by appState.currentTimeZone.collectAsStateWithLifecycle()
 
             CompositionLocalProvider(
+                LocalAnalyticsHelper provides analyticsHelper,
                 LocalTimeZone provides currentTimeZone,
             ) {
                 NiaTheme(

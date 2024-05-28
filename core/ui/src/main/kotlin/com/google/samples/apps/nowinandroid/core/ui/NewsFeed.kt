@@ -37,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.google.samples.apps.nowinandroid.core.analytics.analyticsInstance
+import com.google.samples.apps.nowinandroid.core.analytics.LocalAnalyticsHelper
 import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
 import com.google.samples.apps.nowinandroid.core.model.data.UserNewsResource
 
@@ -62,7 +62,7 @@ fun LazyStaggeredGridScope.newsFeed(
                 contentType = { "newsFeedItem" },
             ) { userNewsResource ->
                 val context = LocalContext.current
-                val analyticsHelper = analyticsInstance(context)
+                val analyticsHelper = LocalAnalyticsHelper.current
                 val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
 
                 NewsResourceCardExpanded(
