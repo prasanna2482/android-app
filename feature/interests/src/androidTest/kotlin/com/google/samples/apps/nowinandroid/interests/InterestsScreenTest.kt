@@ -114,7 +114,6 @@ class InterestsScreenTest {
             uiState = uiState,
             followTopic = { _, _ -> },
             onTopicClick = {},
-            trackScreenView = {},
         )
     }
 }
