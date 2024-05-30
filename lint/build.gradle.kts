@@ -21,9 +21,7 @@ plugins {
 }
 
 kotlin {
-    // Up to Java 11 APIs are available through desugaring
-    // https://developer.android.com/studio/write/java11-minimal-support-table
-    jvmToolchain(11)
+    jvmToolchain(17)
 }
 
 dependencies {
