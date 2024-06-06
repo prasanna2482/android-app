@@ -67,6 +67,10 @@ android {
         unitTests {
             isIncludeAndroidResources = true
         }
+        // Espresso Device
+        emulatorControl {
+            enable = true
+        }
     }
     namespace = "com.google.samples.apps.nowinandroid"
 }
@@ -126,9 +130,12 @@ dependencies {
     androidTestImplementation(projects.core.dataTest)
     androidTestImplementation(projects.core.datastoreTest)
     androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.androidx.test.espresso.device)
+    androidTestImplementation(libs.androidx.test.uiautomator)
 
     baselineProfile(projects.benchmarks)
 }
