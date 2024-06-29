@@ -4,7 +4,6 @@ import com.android.build.api.dsl.LibraryExtension
 import com.google.samples.apps.nowinandroid.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.the
 
 /*
@@ -26,7 +25,7 @@ import org.gradle.kotlin.dsl.the
 class AndroidComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            apply(plugin = "org.jetbrains.kotlin.plugin.compose")
+            pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
 
             val extension = when {
                 pluginManager.hasPlugin("com.android.application") -> the<ApplicationExtension>()
