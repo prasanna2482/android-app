@@ -1,4 +1,4 @@
-
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
@@ -31,15 +31,17 @@ class AndroidJacocoConventionPlugin : Plugin<Project> {
             pluginManager.apply("jacoco")
 
             val jacocoExtension: AndroidComponentsExtension<*, *, *>
-            val androidExtension = when {
+            val androidExtension: CommonExtension<*, *, *, *, *, *> = when {
                 pluginManager.hasPlugin("com.android.application") -> {
                     jacocoExtension = the<ApplicationAndroidComponentsExtension>()
                     the<BaseAppModuleExtension>()
                 }
+
                 pluginManager.hasPlugin("com.android.library") -> {
-                    jacocoExtension = the< LibraryAndroidComponentsExtension>()
+                    jacocoExtension = the<LibraryAndroidComponentsExtension>()
                     the<LibraryExtension>()
                 }
+
                 else -> TODO("Need to apply nowinandroid.android.application or nowinandroid.android.library firstly.")
             }
 

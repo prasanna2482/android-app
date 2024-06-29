@@ -1,5 +1,5 @@
-
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.google.samples.apps.nowinandroid.configureAndroidCompose
 import org.gradle.api.Plugin
@@ -26,8 +26,7 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
-
-            val extension = when {
+            val extension: CommonExtension<*, *, *, *, *, *> = when {
                 pluginManager.hasPlugin("com.android.application") -> the<ApplicationExtension>()
                 pluginManager.hasPlugin("com.android.library") -> the<LibraryExtension>()
                 else -> TODO("Need to apply nowinandroid.android.application or nowinandroid.android.library firstly.")
