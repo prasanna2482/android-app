@@ -17,7 +17,7 @@ import com.google.samples.apps.nowinandroid.NiaBuildType
 
 plugins {
     alias(libs.plugins.nowinandroid.android.application)
-    alias(libs.plugins.nowinandroid.android.application.compose)
+    alias(libs.plugins.nowinandroid.android.compose)
     alias(libs.plugins.nowinandroid.android.application.flavors)
     alias(libs.plugins.nowinandroid.android.application.jacoco)
     alias(libs.plugins.nowinandroid.android.hilt)
