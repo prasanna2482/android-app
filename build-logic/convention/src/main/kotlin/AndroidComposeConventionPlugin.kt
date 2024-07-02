@@ -29,7 +29,7 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
             val extension: CommonExtension<*, *, *, *, *, *> = when {
                 pluginManager.hasPlugin("com.android.application") -> the<ApplicationExtension>()
                 pluginManager.hasPlugin("com.android.library") -> the<LibraryExtension>()
-                else -> TODO("Need to apply nowinandroid.android.application or nowinandroid.android.library firstly.")
+                else -> TODO("This plugin is dependent on either nowinandroid.android.application or nowinandroid.android.library. Apply one of those plugins first.")
             }
             configureAndroidCompose(extension)
         }
