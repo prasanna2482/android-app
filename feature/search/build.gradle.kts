@@ -16,7 +16,7 @@
 
 plugins {
     alias(libs.plugins.nowinandroid.android.feature)
-    alias(libs.plugins.nowinandroid.android.compose )
+    alias(libs.plugins.nowinandroid.android.compose)
     alias(libs.plugins.nowinandroid.android.jacoco)
 }
 
