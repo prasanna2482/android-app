@@ -42,7 +42,7 @@ class AndroidJacocoConventionPlugin : Plugin<Project> {
                     the<LibraryExtension>()
                 }
 
-                else -> TODO("Need to apply nowinandroid.android.application or nowinandroid.android.library firstly.")
+                else -> TODO("This plugin is dependent on either nowinandroid.android.application or nowinandroid.android.library. Apply one of those plugins first.")
             }
 
             androidExtension.buildTypes.configureEach {
