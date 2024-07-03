@@ -30,18 +30,15 @@ class AndroidJacocoConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply("jacoco")
 
-            val jacocoExtension: AndroidComponentsExtension<*, *, *>
             val androidExtension: CommonExtension<*, *, *, *, *, *> = when {
-                pluginManager.hasPlugin("com.android.application") -> {
-                    jacocoExtension = the<ApplicationAndroidComponentsExtension>()
-                    the<BaseAppModuleExtension>()
-                }
+                pluginManager.hasPlugin("com.android.application") -> the<BaseAppModuleExtension>()
+                pluginManager.hasPlugin("com.android.library") -> the<LibraryExtension>()
+                else -> TODO("This plugin is dependent on either nowinandroid.android.application or nowinandroid.android.library. Apply one of those plugins first.")
+            }
 
-                pluginManager.hasPlugin("com.android.library") -> {
-                    jacocoExtension = the<LibraryAndroidComponentsExtension>()
-                    the<LibraryExtension>()
-                }
-
+            val jacocoExtension: AndroidComponentsExtension<*, *, *> = when {
+                pluginManager.hasPlugin("com.android.application") -> the<ApplicationAndroidComponentsExtension>()
+                pluginManager.hasPlugin("com.android.library") -> the<LibraryAndroidComponentsExtension>()
                 else -> TODO("This plugin is dependent on either nowinandroid.android.application or nowinandroid.android.library. Apply one of those plugins first.")
             }
 
