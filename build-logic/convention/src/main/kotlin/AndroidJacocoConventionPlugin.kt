@@ -30,18 +30,22 @@ class AndroidJacocoConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply("jacoco")
 
-            val androidExtension: CommonExtension<*, *, *, *, *, *> = when {
-                pluginManager.hasPlugin("com.android.application") -> the<BaseAppModuleExtension>()
-                pluginManager.hasPlugin("com.android.library") -> the<LibraryExtension>()
-                else -> TODO("This plugin is dependent on either nowinandroid.android.application or nowinandroid.android.library. Apply one of those plugins first.")
-            }
+            val androidExtension: CommonExtension<*, *, *, *, *, *>
+            val jacocoExtension: AndroidComponentsExtension<*, *, *>
 
-            val jacocoExtension: AndroidComponentsExtension<*, *, *> = when {
-                pluginManager.hasPlugin("com.android.application") -> the<ApplicationAndroidComponentsExtension>()
-                pluginManager.hasPlugin("com.android.library") -> the<LibraryAndroidComponentsExtension>()
-                else -> TODO("This plugin is dependent on either nowinandroid.android.application or nowinandroid.android.library. Apply one of those plugins first.")
+            when {
+                pluginManager.hasPlugin("com.android.application") -> {
+                    androidExtension = the<BaseAppModuleExtension>()
+                    jacocoExtension = the<ApplicationAndroidComponentsExtension>()
+                }
+                pluginManager.hasPlugin("com.android.library") -> {
+                    androidExtension = the<LibraryExtension>()
+                    jacocoExtension = the<LibraryAndroidComponentsExtension>()
+                }
+                else ->
+                    TODO("This plugin is dependent on either nowinandroid.android.application or nowinandroid.android.library. Apply one of those plugins first.")
             }
-
+            
             androidExtension.buildTypes.configureEach {
                 enableAndroidTestCoverage = true
                 enableUnitTestCoverage = true
