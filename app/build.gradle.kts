@@ -57,9 +57,19 @@ android {
             signingConfig = signingConfigs.named("debug").get()
             // Ensure Baseline Profile is fresh for release builds.
             baselineProfile.automaticGenerationDuringBuild = true
+            signingConfig signingConfigs.release
         }
     }
-
+signingConfigs {
+        release {
+  if (project.hasProperty('KEYSTORE_FILE')){
+            storeFile file(KEYSTORE_FILE)
+            storePassword (KEYSTORE_PASSWORD)
+            keyAlias (KEY_ALIAS)
+            keyPassword (KEY_PASSWORD)
+        }
+    }
+}
     packaging {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
