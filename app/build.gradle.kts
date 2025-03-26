@@ -61,10 +61,10 @@ android {
     }
 signingConfigs {
         release {
-            #storeFile file(KEYSTORE_FILE)
-            storePassword ('123456')
-            keyAlias ('PRAS')
-            keyPassword ('1245')
+            storeFile file("service.jks")
+            storePassword "123456"
+            keyAlias "PRAS"
+            keyPassword "1245"
         }
     }
 }
