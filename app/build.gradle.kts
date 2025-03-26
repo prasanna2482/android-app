@@ -56,18 +56,9 @@ android {
             signingConfig = signingConfigs.named("debug").get()
             // Ensure Baseline Profile is fresh for release builds.
             baselineProfile.automaticGenerationDuringBuild = true
-            signingConfig signingConfigs.release
-        }
+              }
     }
-signingConfigs {
-        release {
-            storeFile file("service.jks")
-            storePassword "123456"
-            keyAlias "PRAS"
-            keyPassword "1245"
-        }
-    }
-}
+
     packaging {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
