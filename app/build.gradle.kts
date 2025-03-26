@@ -61,11 +61,10 @@ android {
     }
 signingConfigs {
         release {
-  if (project.hasProperty('KEYSTORE_FILE')){
-            storeFile file(KEYSTORE_FILE)
-            storePassword (KEYSTORE_PASSWORD)
-            keyAlias (KEY_ALIAS)
-            keyPassword (KEY_PASSWORD)
+            #storeFile file(KEYSTORE_FILE)
+            storePassword ('123456')
+            keyAlias ('PRAS')
+            keyPassword ('1245')
         }
     }
 }
