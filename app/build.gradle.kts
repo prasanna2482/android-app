@@ -23,7 +23,6 @@ plugins {
     alias(libs.plugins.nowinandroid.android.application.firebase)
     alias(libs.plugins.nowinandroid.hilt)
     id("com.google.android.gms.oss-licenses-plugin")
-    alias(compileSdkVersion 3libs.plugins.baselineprofile)
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
 }
