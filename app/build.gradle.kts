@@ -40,7 +40,16 @@ android {
             useSupportLibrary = true
         }
     }
-
+signingConfigs {
+        release {
+            if (project.hasProperty("KEYSTORE_FILE")) {
+                storeFile file (KEYSTORE_FILE)
+                storePassword KEYSTORE_PASSWORD
+                keyAlias KEY_ALIAS
+                keyPassword KEY_PASSWORD
+            }
+        }
+    }
     buildTypes {
         debug {
             applicationIdSuffix = NiaBuildType.DEBUG.applicationIdSuffix
@@ -53,8 +62,9 @@ android {
             // To publish on the Play store a private signing key is required, but to allow anyone
             // who clones the code to sign and run the release variant, use the debug signing key.
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
-            signingConfig = signingConfigs.named("debug").get()
+            //signingConfig = signingConfigs.named("debug").get()
             // Ensure Baseline Profile is fresh for release builds.
+            signingConfig signingConfigs.release
             baselineProfile.automaticGenerationDuringBuild = true
               }
     }
