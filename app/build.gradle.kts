@@ -40,10 +40,10 @@ android {
     }
 signingConfigs {
     create("release") {
-                storeFile =file(KEYSTORE_FILE)
-                storePassword = KEYSTORE_PASSWORD
-                keyAlias = KEY_ALIAS
-                keyPassword = KEY_PASSWORD
+                storeFile =file("Service.jks")
+                storePassword = "KEYSTORE_PASSWORD"
+                keyAlias = "KEY_ALIAS"
+                keyPassword = "KEY_PASSWORD"
             }
         }
     }
