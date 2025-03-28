@@ -25,7 +25,7 @@ plugins {
     id("com.google.android.gms.oss-licenses-plugin")
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
-    alias(compileSdkVersion libs.plugins.baselineprofile)
+    alias(compileSdkVersion libs.plugins.androidx.baselineprofile)
 }
 
 android {
