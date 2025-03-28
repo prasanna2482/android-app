@@ -41,7 +41,7 @@ android {
         }
     }
 signingConfigs {
-        release {
+        create("release") {
             if (project.hasProperty("KEYSTORE_FILE")) {
                 storeFile = file(project.property("KEYSTORE_FILE") as String)
                 storePassword = project.property("KEYSTORE_PASSWORD") as String
@@ -55,7 +55,7 @@ buildTypes {
         debug {
             applicationIdSuffix = NiaBuildType.DEBUG.applicationIdSuffix
         }
-        release {
+        getByName("release") {
             isMinifyEnabled = true
             applicationIdSuffix = NiaBuildType.RELEASE.applicationIdSuffix
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
