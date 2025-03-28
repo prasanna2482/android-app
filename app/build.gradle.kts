@@ -23,7 +23,7 @@ plugins {
     alias(libs.plugins.nowinandroid.android.application.firebase)
     alias(libs.plugins.nowinandroid.hilt)
     id("com.google.android.gms.oss-licenses-plugin")
-    alias(libs.plugins.baselineprofile)
+    alias(compileSdkVersion 3libs.plugins.baselineprofile)
     alias(libs.plugins.roborazzi)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -33,8 +33,7 @@ android {
         applicationId = "com.google.samples.apps.nowinandroid"
         versionCode = 8
         versionName = "0.1.2" // X.Y.Z; X = Major, Y = minor, Z = Patch level
-
-        // Custom test runner to set up Hilt dependency graph
+                // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -84,6 +83,8 @@ buildTypes {
 }
 
 dependencies {
+    classpath "com.android.tools.build:gradle:8.1.0"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     implementation(projects.feature.interests)
     implementation(projects.feature.foryou)
     implementation(projects.feature.bookmarks)
