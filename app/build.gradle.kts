@@ -46,8 +46,7 @@ signingConfigs {
                 keyPassword = "KEY_PASSWORD"
             }
         }
-    }
-
+    
 buildTypes {
         debug {
             applicationIdSuffix = NiaBuildType.DEBUG.applicationIdSuffix
