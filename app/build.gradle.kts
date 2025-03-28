@@ -41,10 +41,10 @@ android {
     }
 signingConfigs {
     create("release") {
-                storeFile =file("Service.jks")
-                storePassword = "KEYSTORE_PASSWORD"
-                keyAlias = "KEY_ALIAS"
-                keyPassword = "KEY_PASSWORD"
+                storeFile = file(project.findProperty("KEYSTORE_FILE")
+                storePassword = project.findProperty("KEYSTORE_PASSWORD")
+                keyAlias = project.findProperty("KEY_ALIAS")
+                keyPassword = project.findProperty("KEY_PASSWORD")
             }
         }
     
