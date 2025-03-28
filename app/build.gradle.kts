@@ -41,10 +41,10 @@ android {
     }
 signingConfigs {
     create("release") {
-                storeFile = file(project.property("KEYSTORE_FILE"))
-                storePassword = project.property("KEYSTORE_PASSWORD")
-                keyAlias = project.property("KEY_ALIAS")
-                keyPassword = project.property("KEY_PASSWORD")
+                storeFile = file(project.property("KEYSTORE_FILE") as String)
+                storePassword = project.property("KEYSTORE_PASSWORD") as String
+                keyAlias = project.property("KEY_ALIAS") as String
+                keyPassword = project.property("KEY_PASSWORD") as String
             }
         }
     
