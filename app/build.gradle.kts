@@ -39,14 +39,14 @@ android {
             useSupportLibrary = true
         }
     }
-signingConfigs {
+/*signingConfigs {
     create("release") {
                 storeFile = file(project.property("KEYSTORE_FILE") as String)
                 storePassword = project.property("KEYSTORE_PASSWORD") as String
                 keyAlias = project.property("KEY_ALIAS") as String
                 keyPassword = project.property("KEY_PASSWORD") as String
             }
-        }
+        }*/
     
 buildTypes {
         debug {
@@ -62,7 +62,7 @@ buildTypes {
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
             //signingConfig = signingConfigs.named("debug").get()
             // Ensure Baseline Profile is fresh for release builds.
-            signingConfig = signingConfigs.getByName("release")
+            //signingConfig = signingConfigs.getByName("release")
             baselineProfile.automaticGenerationDuringBuild = true
               }
     }
