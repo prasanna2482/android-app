@@ -62,7 +62,7 @@ buildTypes {
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
             //signingConfig = signingConfigs.named("debug").get()
             // Ensure Baseline Profile is fresh for release builds.
-            //signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("release")
             baselineProfile.automaticGenerationDuringBuild = true
               }
     }
